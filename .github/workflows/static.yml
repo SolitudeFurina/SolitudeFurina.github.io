@@ -1,43 +1,70 @@
-# Simple workflow for deploying static content to GitHub Pages
+# 部署 Astro 站点到 GitHub Pages —— 含构建步骤的修复版
+# 用法：整体覆盖仓库里的 .github/workflows/static.yml，然后 commit & push。
+# 与原版的唯一区别：多出 Setup Node / npm ci / npm run build 三步，
+# 并且 upload-pages-artifact 的 path 从 '.' 改成 './dist'。
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # 本仓库默认分支是 master（不是 main）
   push:
     branches: ["master"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          # package.json 里 engines.node 是 >=22.12.0
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        # 如果这一步挂在 postinstall（scripts/sign-native-bindings.js），
+        # 改成：npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          if [ ! -f dist/index.html ]; then
+            echo "::error::dist/index.html 不存在：构建没产出首页，别往下部署"
+            ls -la dist 2>/dev/null || true
+            exit 1
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 关键：只上传构建产物，不要上传整个仓库
+          path: ./dist
+
   deploy:
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
