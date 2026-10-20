@@ -4,15 +4,17 @@ import sitemap from '@astrojs/sitemap';
 import { satteri } from '@astrojs/markdown-satteri';
 import { rehypeCallouts } from './src/plugins/rehype-callouts.mjs';
 
-// Honor SITE_URL from the shell, the host (e.g. Vercel), or a local .env file.
-// Vite has not loaded .env yet at this point, so read it explicitly.
+// 读取环境变量逻辑完全保留
 const env = { ...loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), ''), ...process.env };
 if (env.SITE_URL) {
   process.env.SITE_URL = env.SITE_URL;
 }
 
 export default defineConfig({
-  site: env.SITE_URL || 'https://minrock.vercel.app',
+  // 兜底地址改成你的GitHub Pages站点地址，部署时自动生成正确的站点地图和资源路径
+  site: env.SITE_URL || 'https://solitudefurina.github.io/',
+  // 个人账号根域名的Pages站点，base路径直接设为根路径，完全规避静态资源404问题
+  base: '/',
   integrations: [sitemap()],
   prefetch: {
     prefetchAll: true,
@@ -30,9 +32,9 @@ export default defineConfig({
   vite: {
     server: {
       watch: {
-        ignored: ['**/.obsidian/**', '**/_bases/**', '**/bases/**', '**/_home/**', '**/home/**', '**/_base/**', '**/base/**']
+        ignored: [' **/.obsidian/** ', ' **/_bases/** ', ' **/bases/** ', ' **/_home/** ', ' **/home/** ', ' **/_base/** ', ' **/base/** ']
       }
     },
-    assetsInclude: ['**/*.base', '**/.obsidian/**', '**/_bases/**']
+    assetsInclude: ['**/*.base', ' **/.obsidian/** ', ' **/_bases/** ']
   }
 });
