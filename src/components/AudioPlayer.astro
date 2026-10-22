@@ -111,6 +111,7 @@ const { selector = '.post-content', title = '', label = '朗读全文' } = Astro
 </div>
 
 <script>
+import { narrationMinutes } from '../utils/reading';
   let activeStickyObserver: IntersectionObserver | null = null;
   let audioPlayerGlobalInitialized = false;
 
@@ -192,11 +193,10 @@ const { selector = '.post-content', title = '', label = '朗读全文' } = Astro
     }
 
     const parts = textNodes.map((el) => (el.innerText || el.textContent || '').trim());
-    const totalWords = parts.reduce((acc, text) => acc + text.split(/\s+/).filter(Boolean).length, 0);
-    const estMin = Math.max(1, Math.ceil(totalWords / 140)); // ~140 words/min speech rate
+    const estMin = narrationMinutes(parts.join(' '));
 
     if (estimateLabel) {
-      estimateLabel.textContent = `~${estMin} min narration (${parts.length} parts)`;
+      estimateLabel.textContent = `约 ${estMin} 分钟（共 ${parts.length} 段）`;
     }
 
     let currentIndex = 0;

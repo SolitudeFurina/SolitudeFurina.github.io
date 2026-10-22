@@ -8,6 +8,7 @@ import StructuredData from '../../components/StructuredData.astro';
 import Comments from '../../components/Comments.astro';
 import { getCollection, render } from 'astro:content';
 import { siteConfig } from '../../config/site';
+import { readingMinutes } from '../../utils/reading';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -27,9 +28,8 @@ const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
   timeZone: 'UTC'
 });
 
-// Reading time calculation
-const words = (post.body ?? '').split(/\s+/).filter(Boolean).length;
-const readingMin = Math.max(1, Math.ceil(words / 200));
+// Reading time calculation（中文按字数、西文按词数，见 src/utils/reading.ts）
+const readingMin = readingMinutes(post.body ?? '');
 
 // Prev / Next posts
 const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
