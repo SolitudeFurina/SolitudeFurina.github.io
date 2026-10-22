@@ -16,10 +16,10 @@
   "contentTypes": [
     {
       "id": "content-type-1788644678353-8dfokbrrb",
-      "name": "Blog",
+      "name": "文章",
       "folder": "blog",
       "linkBasePath": "/blog/",
-      "template": "---\ntitle: \"{{title}}\"\ndescription: \"\"\npubDate: {{date}}\ntags: []\ndraft: false\n---",
+      "template": "---\ntitle: \"{{title}}\"\ndescription: \"\"\npubDate: \"{{date}}\"\ntags: []\ndraft: false\n---",
       "enabled": true,
       "creationMode": "folder",
       "indexFileName": "index",
@@ -28,10 +28,10 @@
     },
     {
       "id": "content-type-minrock-projects",
-      "name": "Projects",
+      "name": "项目",
       "folder": "projects",
       "linkBasePath": "/projects/",
-      "template": "---\ntitle: \"{{title}}\"\ndescription: \"\"\ndate: {{date}}\ncategory: \"Open Source\"\ntags: []\nemoji: \"🚀\"\nrepoUrl: \"\"\ndemoUrl: \"\"\nfeatured: false\n---",
+      "template": "---\ntitle: \"{{title}}\"\ndescription: \"\"\ndate: \"{{date}}\"\ncategory: \"其他\"\ntags: []\nemoji: \"🚀\"\nrepoUrl: \"\"\ndemoUrl: \"\"\nfeatured: false\n---",
       "enabled": true,
       "creationMode": "folder",
       "indexFileName": "index",
