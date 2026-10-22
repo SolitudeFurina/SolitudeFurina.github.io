@@ -7,19 +7,19 @@ const allProjects = (await getCollection('projects'))
   .sort((a, b) => b.data.stars - a.data.stars || b.data.date.valueOf() - a.data.date.valueOf());
 
 const topProjects = allProjects.filter((p) => p.data.featured).slice(0, 2);
-const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
+const categories = ['全部', ...new Set(allProjects.map((p) => p.data.category))];
 ---
 
-<BaseLayout title="Projects" description="Open-source tools, themes, and developer utilities.">
+<BaseLayout title="项目" description="我在做的东西：工具、主题和小实验。">
   <div class="projects-container">
     <header class="page-header">
-      <h1 class="page-title">Projects</h1>
-      <p class="page-subtitle">Open-source tools, themes, and developer utilities.</p>
+      <h1 class="page-title">项目</h1>
+      <p class="page-subtitle">我在做的东西：工具、主题和小实验。</p>
     </header>
 
     {topProjects.length > 0 && (
       <section class="featured-section">
-        <h2 class="section-title">Highlights &amp; Featured</h2>
+        <h2 class="section-title">精选与亮点</h2>
         <div class="featured-grid">
           {topProjects.map((proj) => (
             <ProjectCard
@@ -42,7 +42,7 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
     <section class="all-projects-section" id="projects-list-section">
       <div class="section-header">
         <h2 class="section-title">
-          <span>All Projects</span>
+          <span>全部项目</span>
           <span class="section-arrow">→</span>
         </h2>
 
@@ -56,8 +56,8 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
             <input
               type="text"
               id="search-input"
-              placeholder="Filter projects..."
-              aria-label="Filter projects"
+              placeholder="筛选项目…"
+              aria-label="筛选项目"
               autocomplete="off"
             />
           </div>
@@ -65,11 +65,11 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
       </div>
 
       <!-- Category Filter Pills -->
-      <div class="filter-bar" role="group" aria-label="Filter by category">
+      <div class="filter-bar" role="group" aria-label="按分类筛选">
         {categories.map((cat) => (
           <button
             type="button"
-            class={`filter-btn${cat === 'All' ? ' active' : ''}`}
+            class={`filter-btn${cat === '全部' ? ' active' : ''}`}
             data-category={cat}
           >
             {cat}
@@ -105,15 +105,15 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
 
       <!-- Bottom Pagination -->
       <div class="pagination-container pagination-bottom" id="pagination-bottom" style="display: none;">
-        <nav class="pagination-bar" aria-label="Bottom projects pagination">
-          <button type="button" class="pagination-btn prev" id="page-prev-bottom" aria-label="Previous page">←</button>
+        <nav class="pagination-bar" aria-label="项目列表分页">
+          <button type="button" class="pagination-btn prev" id="page-prev-bottom" aria-label="上一页">←</button>
           <div class="pagination-pages" id="pagination-pages-bottom"></div>
-          <button type="button" class="pagination-btn next" id="page-next-bottom" aria-label="Next page">→</button>
+          <button type="button" class="pagination-btn next" id="page-next-bottom" aria-label="下一页">→</button>
         </nav>
       </div>
 
       <div id="no-results" class="no-results" style="display: none;">
-        <p>No projects found matching your filter.</p>
+        <p>没有符合筛选条件的项目。</p>
       </div>
     </section>
   </div>
@@ -133,7 +133,7 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
 
     const PAGE_SIZE = 3;
     let currentPage = 1;
-    let currentCategory = 'All';
+    let currentCategory = '全部';
     let searchQuery = '';
     let matchingItems: HTMLElement[] = [...projectItems];
 
@@ -193,7 +193,7 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
         const desc = item.dataset.description || '';
         const tags = item.dataset.tags || '';
 
-        const matchesCat = currentCategory === 'All' || cat === currentCategory;
+        const matchesCat = currentCategory === '全部' || cat === currentCategory;
         const matchesSearch = !query || title.includes(query) || desc.includes(query) || tags.includes(query);
         return matchesCat && matchesSearch;
       });
@@ -226,7 +226,7 @@ const categories = ['All', ...new Set(allProjects.map((p) => p.data.category))];
       btn.addEventListener('click', () => {
         filterBtns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
-        currentCategory = btn.dataset.category || 'All';
+        currentCategory = btn.dataset.category || '全部';
         applyFilters();
       });
     });

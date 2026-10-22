@@ -1,80 +1,78 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
 ---
 
-<BaseLayout title="About — Minrock Philosophy">
+<BaseLayout title="关于本站" description="关于这个站点：为什么写、用什么写、怎么发布。">
   <article class="about-page">
     <header class="about-header">
-      <h1 class="page-title">About Minrock</h1>
-      <p class="page-subtitle">The story and philosophy behind the rock.</p>
+      <h1 class="page-title">关于本站</h1>
+      <p class="page-subtitle">一个人，一支笔，一个静态站点。</p>
     </header>
 
     <div class="about-content">
-      <h2>The Concept: Raw Ideas, Polished Rock</h2>
+      <h2>这是什么</h2>
       <p>
-        <strong>Minrock</strong> was born from a simple belief: personal notes in an Obsidian vault represent the raw, unshaped volcanic rock of your thoughts. When published to the web, they deserve an architecture that feels as permanent and solid as stone, yet as fast and frictionless as light.
+        这里是我在网上的一个角落。写工程里踩过的坑，写读过的书，也写那些想清楚了才敢说出口的想法。
+        没有推荐算法，没有信息流，没有“猜你喜欢”——你想读什么，自己点进来就好。
       </p>
 
       <blockquote>
-        "Minrock is the solid bedrock where knowledge rests; ScatterLeaf is the gentle breeze where ideas and conversations drift."
+        「写下来」本身就是一种思考。留在脑子里的是印象，写下来的是结论。
       </blockquote>
 
-      <h2>The Mission: Democratizing Digital Sovereignty</h2>
-      <p>
-        At its core, Minrock exists to <strong>democratize access and empower personal positioning on the open web</strong>. In an era where digital presence is increasingly corralled into corporate walled gardens and algorithmic feeds, this project provides everyone with a sovereign space to truly call their own—without outside interference, steep technical hurdles, and at zero financial cost.
-      </p>
-
-      <blockquote class="manifesto-quote">
-        <em>"A ideia do projeto é propiciar e democratizar o acesso e o posicionamento das pessoas na web, garantindo um espaço soberano para chamar de seu: sem interferências, sem grandes dificuldades e com custo zero."</em>
-        <br />
-        <span class="manifesto-author">— Renato Rezende, Creator of Minrock</span>
-      </blockquote>
-
-      <h2>Core Principles</h2>
+      <h2>几条原则</h2>
       <ul>
-        <li><strong>Pure SSG (Zero Bloat):</strong> Every page is pre-rendered at build time. No database calls, no client-side runtime bloat, and instant CDN delivery worldwide.</li>
-        <li><strong>Typography-First:</strong> Words are the interface. We optimize measure, line height, and font contrast so readers can stay immersed for hours.</li>
-        <li><strong>Four Handcrafted Palettes:</strong> Whether you prefer the warmth of aged paper (<em>Cream</em>), the focus of <em>Slate Navy</em>, clean editorial <em>White</em>, or battery-saving <em>Midnight OLED</em>, the design adapts effortlessly.</li>
-        <li><strong>Obsidian Native:</strong> Drop your Markdown files directly into <code>src/content/blog/</code> and watch them publish without custom plugin dependencies.</li>
+        <li><strong>纯静态，零运维：</strong>全站构建时预渲染成 HTML，没有数据库、没有后台服务，国内外的 CDN 都能直接扛住流量。</li>
+        <li><strong>排版优先：</strong>字是主角。行宽、行高、对比度都为了长时间阅读调过，而不是为了好看的首屏截图。</li>
+        <li><strong>Markdown 写作：</strong>内容就是一堆 <code>.md</code> 文件，放在仓库里，用任何编辑器都能改；想换主题不会丢内容。</li>
+        <li><strong>不追踪、不打扰：</strong>没有统计脚本、没有弹窗、没有 Cookie 横幅。你读完就走，什么都不留下。</li>
       </ul>
 
-      <h2>Craftsmanship & Origins</h2>
+      <h2>怎么搭的</h2>
       <p>
-        Minrock was conceptualized, designed, and engineered with pride in Brazil 🇧🇷 by <strong><a href="https://github.com/rnt-rez" target="_blank" rel="noopener noreferrer">Renato Rezende</a></strong>. It represents a commitment to high-standard software craftsmanship tailored for the global open-source ecosystem.
+        站点用 <strong>Astro</strong> 构建，主题是基于 <a href="https://github.com/rnt-rez/minrock" target="_blank" rel="noopener noreferrer">Minrock</a>
+        改造的中文版本；写作在本地完成，<code>git push</code> 之后由 GitHub Actions 自动构建并发布到 GitHub Pages。
       </p>
 
-      <h2>Tech Stack</h2>
       <table>
         <thead>
           <tr>
-            <th>Layer</th>
-            <th>Technology</th>
-            <th>Purpose</th>
+            <th>环节</th>
+            <th>技术</th>
+            <th>说明</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Framework</td>
+            <td>框架</td>
             <td>Astro 7</td>
-            <td>Zero-JS static site generation</td>
+            <td>构建期生成纯静态页面，默认零客户端 JS</td>
           </tr>
           <tr>
-            <td>Styling</td>
-            <td>Vanilla Modern CSS</td>
-            <td>4 theme palettes with custom properties</td>
+            <td>样式</td>
+            <td>原生 CSS</td>
+            <td>四套配色（素白 / 暖纸 / 石板蓝 / 暗夜）</td>
           </tr>
           <tr>
-            <td>Content</td>
-            <td>Obsidian Vault (Markdown)</td>
-            <td>Content collections with Zod schema</td>
+            <td>内容</td>
+            <td>Markdown + Zod</td>
+            <td>frontmatter 校验，写错字段构建会直接报错</td>
           </tr>
           <tr>
-            <td>Discussions</td>
-            <td>ScatterLeaf</td>
-            <td>Iframe-free native comments Web Component</td>
+            <td>部署</td>
+            <td>GitHub Actions + Pages</td>
+            <td>push 即构建，产物是 <code>dist/</code></td>
           </tr>
         </tbody>
       </table>
+
+      <h2>联系</h2>
+      <p>
+        有想说的，可以去 <a href="https://github.com/SolitudeFurina" target="_blank" rel="noopener noreferrer">GitHub</a> 找我，
+        或者写信到 <a href="mailto:3415459400@qq.com">3415459400@qq.com</a>。
+      </p>
+      <p class="about-note">这个站点的名字叫 <strong>{siteConfig.title}</strong>。</p>
     </div>
   </article>
 </BaseLayout>
@@ -104,23 +102,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .about-content {
     font-size: 1.05rem;
-    line-height: 1.8;
+    line-height: 1.9;
   }
 
-  .manifesto-quote {
-    margin: 1.75rem 0;
-    padding: 1.25rem 1.5rem;
-    border-left: 3px solid var(--accent);
-    background: var(--bg-surface);
-    border-radius: 0 8px 8px 0;
-    font-style: normal;
+  .about-content h2 {
+    margin-top: 2.2rem;
   }
 
-  .manifesto-author {
-    display: inline-block;
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
-    font-family: var(--font-mono);
+  .about-note {
     color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .about-content table {
+    font-size: 0.95rem;
   }
 </style>

@@ -8,10 +8,10 @@ import { siteConfig } from '../config/site';
   <button
     id="social-menu-btn"
     class="social-btn-trigger"
-    aria-label="Connect and social links"
+    aria-label="关注与联系"
     aria-haspopup="true"
     aria-expanded="false"
-    title="Connect / Redes e Contato"
+    title="关注与联系"
   >
     <!-- Social / At icon -->
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -24,8 +24,8 @@ import { siteConfig } from '../config/site';
   </button>
 
   <!-- Floating Social Dropdown -->
-  <div id="social-dropdown-menu" class="social-dropdown-menu" role="menu" aria-label="Social and contact options">
-    <div class="social-dropdown-header">CONNECT</div>
+  <div id="social-dropdown-menu" class="social-dropdown-menu" role="menu" aria-label="社交与联系方式">
+    <div class="social-dropdown-header">关注</div>
 
     {siteConfig.socialLinks.linkedin && (
       <a
@@ -41,8 +41,8 @@ import { siteConfig } from '../config/site';
           </svg>
         </span>
         <div class="social-item-info">
-          <span class="social-item-name">LinkedIn</span>
-          <span class="social-item-handle">↗ Profile</span>
+          <span class="social-item-name">领英</span>
+          <span class="social-item-handle">↗ 个人主页</span>
         </div>
       </a>
     )}
@@ -62,7 +62,7 @@ import { siteConfig } from '../config/site';
         </span>
         <div class="social-item-info">
           <span class="social-item-name">GitHub</span>
-          <span class="social-item-handle">↗ Repository</span>
+          <span class="social-item-handle">↗ 代码仓库</span>
         </div>
       </a>
     )}
@@ -82,8 +82,8 @@ import { siteConfig } from '../config/site';
           </svg>
         </span>
         <div class="social-item-info">
-          <span class="social-item-name">Email</span>
-          <span class="social-item-handle">↗ Send message</span>
+          <span class="social-item-name">邮件</span>
+          <span class="social-item-handle">↗ 发消息</span>
         </div>
       </a>
     )}

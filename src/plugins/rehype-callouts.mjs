@@ -5,13 +5,13 @@
  */
 
 const DEFAULT_TITLES = {
-  note: 'Note',
-  tip: 'Tip',
-  important: 'Important',
-  warning: 'Warning',
-  caution: 'Caution',
-  danger: 'Danger',
-  info: 'Info',
+  note: '注意',
+  tip: '提示',
+  important: '重要',
+  warning: '警告',
+  caution: '小心',
+  danger: '危险',
+  info: '信息',
 };
 
 const TYPE_ALIASES = {

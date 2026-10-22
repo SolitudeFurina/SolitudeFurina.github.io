@@ -5,12 +5,12 @@ export interface Props {
   title?: string;
 }
 
-const { headings, title = 'On This Page' } = Astro.props;
+const { headings, title = '本页目录' } = Astro.props;
 const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 ---
 
 {filtered.length > 0 && (
-  <nav class="toc" aria-label="Table of contents">
+  <nav class="toc" aria-label="本页目录">
     <div class="toc-title">{title}</div>
     <ol class="toc-list">
       {filtered.map((h) => (

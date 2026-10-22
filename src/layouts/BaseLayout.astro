@@ -21,7 +21,7 @@ const {
   wide = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://minrock.vercel.app');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://solitudefurina.github.io');
 const pageTitle = title === siteConfig.title ? `${siteConfig.title} — ${siteConfig.tagline}` : `${title} | ${siteConfig.title}`;
 
 const features = siteConfig.features ?? {};
@@ -31,13 +31,13 @@ const showImageZoom = features.imageZoom !== false;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪨</text></svg>" />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" type="application/rss+xml" title={siteConfig.title} href={new URL('/rss.xml', Astro.site || 'https://minrock.vercel.app')} />
+    <link rel="alternate" type="application/rss+xml" title={siteConfig.title} href={new URL('/rss.xml', Astro.site || 'https://solitudefurina.github.io')} />
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -66,7 +66,7 @@ const showImageZoom = features.imageZoom !== false;
     </script>
   </head>
   <body>
-    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    <a href="#main-content" class="skip-to-content">跳到正文</a>
     <Header />
     <main id="main-content" class:list={['main-content', wide ? 'container-wide' : 'container']}>
       <slot />

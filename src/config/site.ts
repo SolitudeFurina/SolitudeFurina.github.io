@@ -69,17 +69,14 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  title: 'Minrock',
-  tagline: 'Raw ideas from your personal vault, finely polished into an ultra-fast static blog.',
-  description: 'Minimalist, typography-first Astro 7 theme crafted for technical writers and Obsidian vaults. Pure SSG, zero bloat.',
-  author: 'Renato Rezende',
-  // Substitua pelo seu domínio de produção (usado para SEO Canônico, OpenGraph e RSS)
-  // Replace with your production domain (used for Canonical SEO, OpenGraph and RSS feeds)
-  // Can be overridden via environment variable (e.g. Vercel: SITE_URL=https://yourdomain.com)
-  siteUrl: (typeof process !== 'undefined' && process.env?.SITE_URL) || (import.meta as any).env?.SITE_URL || 'https://minrock.vercel.app',
+  title: 'Solitude',
+  tagline: '把零散的想法，写成可以慢慢读的文章。',
+  description: '一个安静的角落。记录工程实践、阅读与生活里的想法 —— 用 Markdown 写作，静态发布，不追踪、不弹窗。',
+  author: 'SolitudeFurina',
+  // 生产域名：决定 canonical、OpenGraph 与 RSS 里的绝对地址
+  siteUrl: (typeof process !== 'undefined' && process.env?.SITE_URL) || (import.meta as any).env?.SITE_URL || 'https://solitudefurina.github.io',
   defaultTheme: 'cream',
-  // Granular Feature Flags — "Complete by default, minimalist on demand"
-  // Toggle any feature to false to completely omit markup & scripts in static build
+  // 功能开关：任意一项设为 false，构建时会连相关的 HTML 与脚本一起删掉
   features: {
     search: true,
     tableOfContents: true,
@@ -90,36 +87,27 @@ export const siteConfig: SiteConfig = {
     themeSwitcher: true,
     backToTop: true,
     imageZoom: true,
-    comments: true
+    comments: false
   },
   socialLinks: {
-    github: 'https://github.com/rnt-rez/minrock',
-    linkedin: 'https://example.com/',
-    email: 'https://example.com/'
+    github: 'https://github.com/SolitudeFurina',
+    email: '3415459400@qq.com'
   },
   navLinks: [
-    { title: 'Home', href: '/' },
-    { title: 'Blog', href: '/blog' },
-    { title: 'Projects', href: '/projects' },
-    { title: 'Tags', href: '/tags' },
-    { title: 'About', href: '/about' }
+    { title: '首页', href: '/' },
+    { title: '文章', href: '/blog' },
+    { title: '项目', href: '/projects' },
+    { title: '标签', href: '/tags' },
+    { title: '关于', href: '/about' }
   ],
   comments: {
-    enabled: true,
+    enabled: false,
     provider: 'scatterleaf',
-    repo: 'rnt-rez/minrock',
-    category: 'General',
+    repo: 'SolitudeFurina/SolitudeFurina.github.io',
+    category: '综合',
     theme: 'auto',
-    lang: 'auto',
-    clientId: 'Iv23liZHApvnx6e6wtMJ',
-    // 🍃 DEFAULT: Showcase Mode (broker: '')
-    // Out of the box, broker defaults to '' (empty). ScatterLeaf runs in an interactive,
-    // safe sandbox with simulated mock comments in browser memory — zero external setup,
-    // zero tokens, and zero spam posted to your GitHub repository.
-    //
-    // 🚀 TO ENABLE LIVE DISCUSSIONS:
-    // Deploy your Cloudflare Edge Broker Worker and supply its URL via the
-    // PUBLIC_SCATTERLEAF_BROKER environment variable (e.g. in Vercel / Cloudflare project settings).
+    lang: 'zh',
+    // 评论默认关闭：接上 ScatterLeaf（基于 GitHub Discussions）后把 enabled 改成 true
     broker: (typeof process !== 'undefined' && process.env?.PUBLIC_SCATTERLEAF_BROKER) || (import.meta as any).env?.PUBLIC_SCATTERLEAF_BROKER || '',
     features: {
       images: true

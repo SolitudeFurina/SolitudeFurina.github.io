@@ -20,10 +20,11 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
 
-const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',
-  day: 'numeric'
+  day: 'numeric',
+  timeZone: 'UTC'
 });
 
 // Reading time calculation
@@ -72,7 +73,7 @@ const showToc = features.tableOfContents !== false && headings.length > 0;
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
-                  {readingMin} min read
+                  {readingMin} 分钟读完
                 </span>
               </>
             )}
@@ -94,7 +95,7 @@ const showToc = features.tableOfContents !== false && headings.length > 0;
 
         <!-- 🔊 Accessible Audio Player (Text-to-Speech) -->
         {showAudio && post.data.audio !== false && (
-          <AudioPlayer selector=".post-content" title={post.data.title} label="Listen to Article" />
+          <AudioPlayer selector=".post-content" title={post.data.title} label="朗读全文" />
         )}
 
         {post.data.image && (
@@ -112,10 +113,10 @@ const showToc = features.tableOfContents !== false && headings.length > 0;
         )}
 
         <!-- Prev / Next Navigation -->
-        <nav class="post-nav" aria-label="Post navigation">
+        <nav class="post-nav" aria-label="文章导航">
           {prevPost ? (
             <a href={`/blog/${prevPost.id}`} class="nav-card nav-prev">
-              <span class="nav-direction">← Older</span>
+              <span class="nav-direction">← 更早</span>
               <span class="nav-title">{prevPost.data.title}</span>
             </a>
           ) : (
@@ -123,7 +124,7 @@ const showToc = features.tableOfContents !== false && headings.length > 0;
           )}
           {nextPost ? (
             <a href={`/blog/${nextPost.id}`} class="nav-card nav-next">
-              <span class="nav-direction">Newer →</span>
+              <span class="nav-direction">更新 →</span>
               <span class="nav-title">{nextPost.data.title}</span>
             </a>
           ) : (
@@ -138,8 +139,8 @@ const showToc = features.tableOfContents !== false && headings.length > 0;
 
     <!-- Sticky Sidebar Column (TOC) -->
     {showToc && (
-      <aside class="post-sidebar" aria-label="Article Table of Contents">
-        <TOC headings={headings} title="On This Page" />
+      <aside class="post-sidebar" aria-label="本页目录">
+        <TOC headings={headings} title="本页目录" />
       </aside>
     )}
   </div>

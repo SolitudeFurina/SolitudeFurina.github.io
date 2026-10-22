@@ -4,7 +4,7 @@
 ---
 
 <!-- Search Modal Backdrop & Container -->
-<div id="search-modal-backdrop" class="search-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Global Search">
+<div id="search-modal-backdrop" class="search-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-label="站内搜索">
   <div class="search-dialog" id="search-modal-dialog">
     <!-- Header -->
     <div class="search-dialog-header">
@@ -17,20 +17,20 @@
           type="text"
           id="search-modal-input"
           class="search-input"
-          placeholder="Search articles, projects, topics, tags..."
+          placeholder="搜索文章、项目、主题、标签…"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
           spellcheck="false"
         />
-        <button id="search-modal-clear" class="search-clear-btn" aria-label="Clear search" type="button" style="display: none;">
+        <button id="search-modal-clear" class="search-clear-btn" aria-label="清空搜索" type="button" style="display: none;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
       </div>
-      <button id="search-modal-close" class="search-close-badge" type="button" aria-label="Close search (Esc)" title="Close (Esc)">
+      <button id="search-modal-close" class="search-close-badge" type="button" aria-label="关闭搜索（Esc）" title="关闭（Esc）">
         <kbd class="kbd-esc">ESC</kbd>
       </button>
     </div>
@@ -38,27 +38,27 @@
     <!-- Results Area -->
     <div id="search-modal-results" class="search-dialog-body" tabindex="-1">
       <div class="search-initial-state">
-        <div class="initial-section-title">Quick Access &amp; Navigation</div>
+        <div class="initial-section-title">快捷入口</div>
         <div class="initial-shortcuts">
           <a href="/blog" class="initial-pill">
             <span class="pill-icon">📄</span>
-            <span>All Articles</span>
+            <span>全部文章</span>
           </a>
           <a href="/projects" class="initial-pill">
             <span class="pill-icon">📦</span>
-            <span>All Projects</span>
+            <span>全部项目</span>
           </a>
           <a href="/tags" class="initial-pill">
             <span class="pill-icon">🏷️</span>
-            <span>All Tags</span>
+            <span>全部标签</span>
           </a>
           <a href="/about" class="initial-pill">
             <span class="pill-icon">👤</span>
-            <span>About</span>
+            <span>关于</span>
           </a>
         </div>
         <div class="initial-hint">
-          Type any keyword (e.g., <code>obsidian</code>, <code>astro</code>, <code>typography</code>, <code>scatterleaf</code>) to filter in real-time.
+          输入任意关键词（例如 <code>astro</code>、<code>obsidian</code>、<code>markdown</code>、<code>写作</code>）即可实时搜索。
         </div>
       </div>
     </div>
@@ -66,12 +66,12 @@
     <!-- Footer -->
     <div class="search-dialog-footer">
       <div class="search-shortcuts-guide">
-        <span class="guide-item"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
-        <span class="guide-item"><kbd>↵</kbd> Select</span>
-        <span class="guide-item"><kbd>ESC</kbd> Close</span>
+        <span class="guide-item"><kbd>↑</kbd><kbd>↓</kbd> 移动</span>
+        <span class="guide-item"><kbd>↵</kbd> 打开</span>
+        <span class="guide-item"><kbd>ESC</kbd> 关闭</span>
       </div>
       <div class="search-brand-note">
-        🪨 Minrock Search
+        🔍 Solitude 搜索
       </div>
     </div>
   </div>
@@ -242,7 +242,7 @@
       resultsContainer.innerHTML = `
         <div class="search-empty">
           <div class="search-empty-icon">⏳</div>
-          <div class="search-empty-title">Loading search index...</div>
+          <div class="search-empty-title">正在加载搜索索引…</div>
         </div>
       `;
       return;
@@ -305,8 +305,8 @@
       resultsContainer.innerHTML = `
         <div class="search-empty">
           <div class="search-empty-icon">🔍</div>
-          <div class="search-empty-title">No results found for "${escapeHtml(cleanQuery)}"</div>
-          <div class="search-empty-desc">Try searching for keywords like <code>obsidian</code>, <code>astro</code>, <code>vault</code> or <code>ssg</code>.</div>
+          <div class="search-empty-title">没有找到「${escapeHtml(cleanQuery)}」</div>
+          <div class="search-empty-desc">换个词试试，比如 <code>astro</code>、<code>obsidian</code>、<code>markdown</code> 或 <code>写作</code>。</div>
         </div>
       `;
       selectedIndex = -1;
@@ -321,7 +321,7 @@
       html += `
         <div class="search-category-group">
           <div class="search-category-title">
-            <span>📄 Blog Articles</span>
+            <span>📄 文章</span>
             <span class="search-category-count">${matchedPosts.length}</span>
           </div>
       `;
@@ -350,7 +350,7 @@
       html += `
         <div class="search-category-group">
           <div class="search-category-title">
-            <span>📦 Projects</span>
+            <span>📦 项目</span>
             <span class="search-category-count">${matchedProjects.length}</span>
           </div>
       `;
@@ -361,11 +361,11 @@
             <div class="search-result-content">
               <div class="search-result-top">
                 <div class="search-result-title">${highlightText(proj.title, cleanQuery)}</div>
-                <div class="search-result-meta">${proj.category || 'Project'}</div>
+                <div class="search-result-meta">${proj.category || '项目'}</div>
               </div>
               <div class="search-result-desc">${highlightText(proj.description, cleanQuery)}</div>
               <div class="search-result-tags">
-                <span class="search-result-badge series-badge">⚡ ${escapeHtml(proj.category || 'Project')}</span>
+                <span class="search-result-badge series-badge">⚡ ${escapeHtml(proj.category || '项目')}</span>
                 ${proj.tags.slice(0, 3).map((t) => `<span class="search-result-badge">#${highlightText(t, cleanQuery)}</span>`).join('')}
               </div>
             </div>
@@ -380,7 +380,7 @@
       html += `
         <div class="search-category-group">
           <div class="search-category-title">
-            <span>🏷️ Tags &amp; Topics</span>
+            <span>🏷️ 标签与主题</span>
             <span class="search-category-count">${matchedTags.length}</span>
           </div>
           <div class="search-tags-grid">

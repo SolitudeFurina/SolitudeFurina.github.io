@@ -3,7 +3,7 @@
 ---
 
 <div class="lang-selector" id="lang-selector">
-  <button id="lang-btn" class="lang-btn-inner" aria-label="Select language" aria-haspopup="true" aria-expanded="false" title="Language / Idioma">
+  <button id="lang-btn" class="lang-btn-inner" aria-label="选择语言" aria-haspopup="true" aria-expanded="false" title="语言">
     <!-- Language Globe / Translate Icon -->
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="m5 8 6 6"></path>
@@ -18,8 +18,8 @@
     </svg>
   </button>
 
-  <div id="lang-dropdown" class="lang-dropdown" role="menu" aria-label="Available languages">
-    <div class="lang-dropdown-header">LANGUAGE</div>
+  <div id="lang-dropdown" class="lang-dropdown" role="menu" aria-label="可选语言">
+    <div class="lang-dropdown-header">语言</div>
     
     <!-- English (US) -->
     <button class="lang-option" data-lang="en" role="menuitem">
@@ -40,7 +40,7 @@
           </g>
         </svg>
       </span>
-      <span class="lang-name">English</span>
+      <span class="lang-name">英语</span>
     </button>
 
     <!-- Português (Brazil) -->
@@ -56,7 +56,7 @@
           </g>
         </svg>
       </span>
-      <span class="lang-name">Português</span>
+      <span class="lang-name">葡萄牙语</span>
     </button>
 
     <!-- Español (Spain) -->
@@ -71,7 +71,7 @@
           </g>
         </svg>
       </span>
-      <span class="lang-name">Español</span>
+      <span class="lang-name">西班牙语</span>
     </button>
 
     <!-- Français (France) -->
@@ -86,7 +86,7 @@
           </g>
         </svg>
       </span>
-      <span class="lang-name">Français</span>
+      <span class="lang-name">法语</span>
     </button>
 
     <!-- Deutsch (Germany) -->
@@ -101,7 +101,7 @@
           </g>
         </svg>
       </span>
-      <span class="lang-name">Deutsch</span>
+      <span class="lang-name">德语</span>
     </button>
 
     <!-- Русский (Russia) -->
@@ -116,7 +116,7 @@
           </g>
         </svg>
       </span>
-      <span class="lang-name">Русский</span>
+      <span class="lang-name">俄语</span>
     </button>
 
     <!-- 中文 (China) -->
@@ -377,7 +377,7 @@
         return;
       }
       (window as any).googleTranslateElementInit = function() {
-        new (window as any).google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        new (window as any).google.translate.TranslateElement({ pageLanguage: 'zh-CN' }, 'google_translate_element');
         cb();
       };
       const s = document.createElement('script');

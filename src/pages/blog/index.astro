@@ -12,17 +12,17 @@ const allTags = Array.from(new Set(allPosts.flatMap((p) => p.data.tags || []))).
 const showTags = siteConfig.features?.tags !== false;
 ---
 
-<BaseLayout title="Blog — All Notes">
+<BaseLayout title="文章">
   <div class="blog-page">
     <header class="blog-header">
-      <h1 class="page-title">Articles &amp; Notes</h1>
+      <h1 class="page-title">文章与笔记</h1>
       <p class="page-desc">
-        Explorations in software engineering, technical writing, and minimalist design.
+        记录工程实践、写作心得，以及一点极简设计。
       </p>
 
       {showTags && allTags.length > 0 && (
         <div class="tags-filter">
-          <span class="tags-label">Topics:</span>
+          <span class="tags-label">主题：</span>
           {allTags.map((tag) => (
             <a href={`/tags/${tag}`} class="tag-pill">#{tag}</a>
           ))}
@@ -33,7 +33,7 @@ const showTags = siteConfig.features?.tags !== false;
     <section class="articles-section">
       <div class="section-header">
         <h2 class="section-title">
-          <span>All Articles</span>
+          <span>全部文章</span>
           <span class="section-arrow">→</span>
         </h2>
 
@@ -47,8 +47,8 @@ const showTags = siteConfig.features?.tags !== false;
             <input
               type="text"
               id="search-input"
-              placeholder="Filter articles..."
-              aria-label="Filter articles"
+              placeholder="筛选文章…"
+              aria-label="筛选文章"
               autocomplete="off"
             />
           </div>
@@ -71,15 +71,15 @@ const showTags = siteConfig.features?.tags !== false;
 
       <!-- Bottom Pagination -->
       <div class="pagination-container pagination-bottom" id="pagination-bottom" style="display: none;">
-        <nav class="pagination-bar" aria-label="Bottom article pagination">
-          <button type="button" class="pagination-btn prev" id="page-prev-bottom" aria-label="Previous page">←</button>
+        <nav class="pagination-bar" aria-label="文章列表分页">
+          <button type="button" class="pagination-btn prev" id="page-prev-bottom" aria-label="上一页">←</button>
           <div class="pagination-pages" id="pagination-pages-bottom"></div>
-          <button type="button" class="pagination-btn next" id="page-next-bottom" aria-label="Next page">→</button>
+          <button type="button" class="pagination-btn next" id="page-next-bottom" aria-label="下一页">→</button>
         </nav>
       </div>
 
       <div id="no-results" class="no-results" style="display: none;">
-        <p>No articles found matching your filter.</p>
+        <p>没有符合筛选条件的文章。</p>
       </div>
     </section>
   </div>

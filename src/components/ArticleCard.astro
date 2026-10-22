@@ -7,10 +7,11 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'short',
-  day: 'numeric'
+  day: 'numeric',
+  timeZone: 'UTC'
 });
 const showTags = siteConfig.features?.tags !== false;
 ---

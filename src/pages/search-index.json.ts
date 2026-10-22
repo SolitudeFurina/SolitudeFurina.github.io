@@ -35,7 +35,7 @@ export async function GET() {
       title: p.data.title,
       description: p.data.description,
       url: `/blog/${p.id}`,
-      date: p.data.pubDate.toLocaleDateString('en-US', {
+      date: p.data.pubDate.toLocaleDateString('zh-CN', {
         month: 'short',
         day: 'numeric',
         year: 'numeric',
@@ -48,7 +48,7 @@ export async function GET() {
       title: p.data.title,
       description: p.data.description,
       url: `/projects/${p.id}`,
-      date: p.data.date.toLocaleDateString('en-US', {
+      date: p.data.date.toLocaleDateString('zh-CN', {
         month: 'short',
         year: 'numeric',
       }),

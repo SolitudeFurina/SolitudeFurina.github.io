@@ -7,7 +7,7 @@ interface Props {
   description?: string;
 }
 
-const { title = 'Article', url = '', description = '' } = Astro.props;
+const { title = '文章', url = '', description = '' } = Astro.props;
 
 const linkedinUrl = siteConfig.socialLinks.linkedin || 'https://linkedin.com';
 const githubUrl = siteConfig.socialLinks.github || 'https://github.com';
@@ -19,44 +19,44 @@ const socialLinks = [
   {
     name: 'LinkedIn',
     href: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
-    title: 'Share on LinkedIn',
+    title: '分享到 LinkedIn',
     icon: 'linkedin'
   },
   {
     name: 'X (Twitter)',
     href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`,
-    title: 'Share on X',
+    title: '分享到 X',
     icon: 'x'
   },
   {
     name: 'WhatsApp',
     href: `https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`,
-    title: 'Share on WhatsApp',
+    title: '分享到 WhatsApp',
     icon: 'whatsapp'
   },
   {
     name: 'Telegram',
     href: `https://t.me/share/url?url=${shareUrl}&text=${shareTitle}`,
-    title: 'Share on Telegram',
+    title: '分享到 Telegram',
     icon: 'telegram'
   },
   {
     name: 'Facebook',
     href: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
-    title: 'Share on Facebook',
+    title: '分享到 Facebook',
     icon: 'facebook'
   },
   {
     name: 'Email',
     href: `mailto:?subject=${shareTitle}&body=${shareTitle}%0A%0A${shareUrl}`,
-    title: 'Share via Email',
+    title: '通过邮件分享',
     icon: 'email'
   }
 ];
 ---
 
-<div class="share-bar" aria-label="Share and connect">
-  <span class="share-label">Share:</span>
+<div class="share-bar" aria-label="分享与关注">
+  <span class="share-label">分享：</span>
   <div class="share-buttons">
     <!-- LinkedIn -->
     <a
@@ -91,8 +91,8 @@ const socialLinks = [
       type="button"
       class="share-btn share-trigger-btn"
       id="open-share-modal"
-      title="Share article"
-      aria-label="Share article"
+      title="分享本文"
+      aria-label="分享本文"
       aria-haspopup="dialog"
       data-url={url}
       data-title={title}
@@ -103,7 +103,7 @@ const socialLinks = [
         <polyline points="16 6 12 2 8 6"></polyline>
         <line x1="12" y1="2" x2="12" y2="15"></line>
       </svg>
-      <span class="share-trigger-text">Share</span>
+      <span class="share-trigger-text">分享</span>
     </button>
   </div>
 </div>
@@ -119,9 +119,9 @@ const socialLinks = [
           <polyline points="16 6 12 2 8 6"></polyline>
           <line x1="12" y1="2" x2="12" y2="15"></line>
         </svg>
-        <h3 id="share-modal-title" class="share-dialog-title">Share article</h3>
+        <h3 id="share-modal-title" class="share-dialog-title">分享本文</h3>
       </div>
-      <button id="share-modal-close" class="share-close-btn" type="button" aria-label="Close share dialog (Esc)" title="Close (Esc)">
+      <button id="share-modal-close" class="share-close-btn" type="button" aria-label="关闭分享面板（Esc）" title="关闭（Esc）">
         <kbd class="kbd-esc">ESC</kbd>
       </button>
     </div>
@@ -133,9 +133,9 @@ const socialLinks = [
         <div class="preview-card-topbar">
           <div class="preview-site-brand">
             <span class="preview-brand-emoji">🪨</span>
-            <span class="preview-brand-name">Minrock</span>
+            <span class="preview-brand-name">Solitude</span>
           </div>
-          <span class="preview-pill">Preview</span>
+          <span class="preview-pill">预览</span>
         </div>
         <div class="preview-card-main">
           <div class="preview-article-title-row">
@@ -160,7 +160,7 @@ const socialLinks = [
             class="share-url-input"
             value={url}
             readonly
-            aria-label="Article canonical link"
+            aria-label="文章永久链接"
             spellcheck="false"
           />
         </div>
@@ -168,7 +168,7 @@ const socialLinks = [
           type="button"
           id="share-copy-btn"
           class="share-copy-btn"
-          aria-label="Copy canonical link to clipboard"
+          aria-label="复制本站链接"
         >
           <svg class="copy-state-icon link-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -177,13 +177,13 @@ const socialLinks = [
           <svg class="copy-state-icon check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
-          <span class="share-copy-text">Copy URL</span>
+          <span class="share-copy-text">复制链接</span>
         </button>
       </div>
 
       <!-- Social Share Grid (Calibrated Minrock-style buttons: square, 6px border-radius) -->
       <div class="share-social-wrapper">
-        <div class="share-social-header">Share directly to:</div>
+        <div class="share-social-header">直接分享到：</div>
         <div class="share-social-grid">
           {socialLinks.map((item) => (
             <a
@@ -320,13 +320,13 @@ const socialLinks = [
         try {
           await navigator.clipboard.writeText(textToCopy);
           copyBtn.classList.add('copied');
-          if (textSpan) textSpan.textContent = 'Copied!';
+          if (textSpan) textSpan.textContent = '已复制';
           if (linkIcon) linkIcon.style.display = 'none';
           if (checkIcon) checkIcon.style.display = 'inline-block';
 
           setTimeout(() => {
             copyBtn.classList.remove('copied');
-            if (textSpan) textSpan.textContent = 'Copy URL';
+            if (textSpan) textSpan.textContent = '复制链接';
             if (linkIcon) linkIcon.style.display = 'inline-block';
             if (checkIcon) checkIcon.style.display = 'none';
           }, 2000);
@@ -338,10 +338,10 @@ const socialLinks = [
             // fallback
           }
           copyBtn.classList.add('copied');
-          if (textSpan) textSpan.textContent = 'Copied!';
+          if (textSpan) textSpan.textContent = '已复制';
           setTimeout(() => {
             copyBtn.classList.remove('copied');
-            if (textSpan) textSpan.textContent = 'Copy URL';
+            if (textSpan) textSpan.textContent = '复制链接';
           }, 2000);
         }
       };

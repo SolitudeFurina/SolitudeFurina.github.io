@@ -22,7 +22,7 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    category: z.string().default('General'),
+    category: z.string().default('其他'),
     tags: z.array(z.string()).default([]),
     stars: z.number().default(0),
     repoUrl: z.string().optional(),

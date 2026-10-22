@@ -13,7 +13,7 @@ const isEnabled = siteConfig.features?.comments !== false && Boolean(comments?.e
 ---
 
 {isEnabled && comments && (
-  <section class="comments-area" id="comments" aria-label="Article Discussion">
+  <section class="comments-area" id="comments" aria-label="文章讨论">
     <div class="comments-divider"></div>
     
     {comments.provider === 'scatterleaf' && (
@@ -21,7 +21,7 @@ const isEnabled = siteConfig.features?.comments !== false && Boolean(comments?.e
         <div class="comments-header">
           <h3 class="comments-title">
             <span>🍃</span>
-            <span>Discussion & Notes</span>
+            <span>讨论与留言</span>
           </h3>
           <p class="comments-subtitle">
             Iframe-free native comments powered by{' '}
@@ -35,7 +35,7 @@ const isEnabled = siteConfig.features?.comments !== false && Boolean(comments?.e
           <scatter-leaf
             id="post-comments"
             repo={comments.repo}
-            category={comments.category || 'General'}
+            category={comments.category || '综合'}
             theme={comments.theme || 'auto'}
             lang={comments.lang || 'auto'}
             broker={comments.broker}

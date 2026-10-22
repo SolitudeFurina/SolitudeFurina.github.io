@@ -41,17 +41,17 @@ const totalCount = posts.length + projects.length;
 >
   <header class="tag-header">
     <div class="tag-breadcrumb">
-      <a href="/tags">Tags</a>
+      <a href="/tags">标签</a>
       <span class="sep">/</span>
       <span class="current">#{tag}</span>
     </div>
-    <h1 class="tag-title">Content tagged with <span class="highlight">#{tag}</span></h1>
-    <p class="tag-count">{totalCount} {totalCount === 1 ? 'item' : 'items'} found ({posts.length} articles, {projects.length} projects)</p>
+    <h1 class="tag-title">标签 <span class="highlight">#{tag}</span> 下的文章</h1>
+    <p class="tag-count">共 {totalCount} 条内容（{posts.length} 篇文章 · {projects.length} 个项目）</p>
   </header>
 
   {posts.length > 0 && (
     <section class="tag-section">
-      <h2 class="section-title">Articles ({posts.length})</h2>
+      <h2 class="section-title">文章（{posts.length}）</h2>
       <div class="posts-list">
         {posts.map((post) => (
           <ArticleCard post={post} />
@@ -62,7 +62,7 @@ const totalCount = posts.length + projects.length;
 
   {projects.length > 0 && (
     <section class="tag-section projects-tag-section">
-      <h2 class="section-title">Projects ({projects.length})</h2>
+      <h2 class="section-title">项目（{projects.length}）</h2>
       <div class="projects-grid">
         {projects.map((proj) => (
           <ProjectCard

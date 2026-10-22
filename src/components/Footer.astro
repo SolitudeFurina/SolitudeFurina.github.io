@@ -5,15 +5,15 @@ const currentYear = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <div class="footer-socials" aria-label="Social and feed links">
+    <div class="footer-socials" aria-label="社交与订阅">
       {siteConfig.socialLinks.linkedin && (
         <a
           href={siteConfig.socialLinks.linkedin}
           target="_blank"
           rel="noopener noreferrer"
           class="footer-social-btn"
-          aria-label="LinkedIn"
-          title="Connect on LinkedIn"
+          aria-label="领英"
+          title="在领英上关注"
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -30,7 +30,7 @@ const currentYear = new Date().getFullYear();
           rel="noopener noreferrer"
           class="footer-social-btn"
           aria-label="GitHub"
-          title="Source on GitHub"
+          title="在 GitHub 上查看源码"
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -44,8 +44,8 @@ const currentYear = new Date().getFullYear();
           target={siteConfig.socialLinks.email.startsWith('http') ? '_blank' : undefined}
           rel={siteConfig.socialLinks.email.startsWith('http') ? 'noopener noreferrer' : undefined}
           class="footer-social-btn"
-          aria-label="Email"
-          title="Send an email"
+          aria-label="邮件"
+          title="写封邮件"
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="4" width="20" height="16" rx="2"></rect>
@@ -59,8 +59,8 @@ const currentYear = new Date().getFullYear();
         target="_blank"
         rel="noopener noreferrer"
         class="footer-social-btn"
-        aria-label="RSS Feed"
-        title="Subscribe to RSS Feed"
+        aria-label="RSS 订阅"
+        title="订阅 RSS"
       >
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 11a9 9 0 0 1 9 9"></path>
@@ -73,11 +73,11 @@ const currentYear = new Date().getFullYear();
     <div class="footer-copy">
       <span>© {currentYear} {siteConfig.title}.</span>
       <span class="footer-separator">•</span>
-      <span class="footer-ssg">Pure SSG powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a></span>
+      <span class="footer-ssg">纯静态构建 · <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a></span>
     </div>
 
     <div class="footer-signature">
-      <em>Crafted with precision by the <a href="https://github.com/rnt-rez/minrock" target="_blank" rel="noopener noreferrer">Minrock Project</a>. Engineered for the open web.</em>
+      <em>基于 <a href="https://github.com/rnt-rez/minrock" target="_blank" rel="noopener noreferrer">Minrock</a> 主题，为开放网络而生。</em>
     </div>
   </div>
 </footer>
