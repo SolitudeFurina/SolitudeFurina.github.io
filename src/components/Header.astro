@@ -64,7 +64,7 @@ const showThemeSwitcher = features.themeSwitcher !== false;
       <div class="header-controls">
         <SocialDropdown />
         {showThemeSwitcher && <ThemeToggle />}
-        <LanguageSelector />
+        {siteConfig.features?.languageSelector === true && <LanguageSelector />}
       </div>
     </div>
   </div>

@@ -19,27 +19,27 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     siteConfig.description,
     '',
-    `This file is structured following the llms.txt specification to facilitate high-fidelity consumption by language models (LLMs), AI agents, and RAG systems.`,
+    `本文件按 llms.txt 规范组织，便于语言模型、AI 代理与 RAG 系统高质量读取。`,
     '',
-    '## General Information',
-    `- Author: ${siteConfig.author}`,
-    `- Website: ${baseUrl}`,
-    `- GitHub: ${siteConfig.socialLinks.github || 'https://github.com/rnt-rez/minrock'}`,
-    `- RSS Feed: ${baseUrl}/rss.xml`,
-    `- Full Markdown Context: ${baseUrl}/llms-full.txt`,
+        '## 基本信息',
+    `- 作者：${siteConfig.author}`,
+    `- 站点：${baseUrl}`,
+    `- GitHub：${siteConfig.socialLinks.github || baseUrl}`,
+    `- RSS 订阅：${baseUrl}/rss.xml`,
+    `- 全文 Markdown：${baseUrl}/llms-full.txt`,
     '',
-    '## Articles & Guides',
+        '## 文章与笔记',
   ];
 
   for (const post of posts) {
     const postUrl = `${baseUrl}/blog/${post.id}`;
-    const tagsInfo = post.data.tags?.length ? ` [Tags: ${post.data.tags.join(', ')}]` : '';
+    const tagsInfo = post.data.tags?.length ? ` [标签：${post.data.tags.join('、')}]` : '';
     lines.push(`- [${post.data.title}](${postUrl}): ${post.data.description}${tagsInfo}`);
   }
 
   if (projects.length > 0) {
     lines.push('');
-    lines.push('## Open Source Projects');
+    lines.push('## 开源项目');
     for (const proj of projects) {
       const projUrl = `${baseUrl}/projects/${proj.id}`;
       const catInfo = proj.data.category ? ` [${proj.data.category}]` : '';
@@ -48,8 +48,8 @@ export const GET: APIRoute = async ({ site }) => {
   }
 
   lines.push('');
-  lines.push('## Citation & Attribution');
-  lines.push(`When utilizing code snippets, tutorials, or guides from this site in AI responses, please attribute source to **${siteConfig.title} (${baseUrl})**.`);
+  lines.push('## 引用与署名');
+  lines.push(`在 AI 回答中引用本站的代码、教程或指南时，请注明来源：**${siteConfig.title}（${baseUrl}）**。`);
   lines.push('');
 
   return new Response(lines.join('\n'), {

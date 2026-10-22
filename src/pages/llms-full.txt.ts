@@ -14,11 +14,11 @@ export const GET: APIRoute = async ({ site }) => {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   const lines: string[] = [
-    `# ${siteConfig.title} — Full Knowledge Context`,
-    `> Complete compilation of published technical articles and documentation.`,
-    `> Website: ${baseUrl}`,
+    `# ${siteConfig.title} — 全文知识库`,
+    `> 本站已发布文章与项目的完整汇编。`,
+    `> 站点：${baseUrl}`,
     '',
-    'This document is prepared for LLMs and AI agents requiring full-corpus context in a single request.',
+        '本文件为语言模型与 AI 代理准备，可在一次请求内读到本站全部正文。',
     '',
     '---',
     '',
@@ -27,16 +27,16 @@ export const GET: APIRoute = async ({ site }) => {
   for (const post of posts) {
     const postUrl = `${baseUrl}/blog/${post.id}`;
     const dateFormatted = post.data.pubDate.toISOString().split('T')[0];
-    const tagsStr = post.data.tags?.join(', ') || 'N/A';
+    const tagsStr = post.data.tags?.join('、') || '无';
 
-    lines.push(`## Article: ${post.data.title}`);
-    lines.push(`- **URL:** ${postUrl}`);
-    lines.push(`- **Date:** ${dateFormatted}`);
-    lines.push(`- **Author:** ${siteConfig.author}`);
-    lines.push(`- **Tags:** ${tagsStr}`);
-    lines.push(`- **Description:** ${post.data.description}`);
+    lines.push(`## 文章：${post.data.title}`);
+    lines.push(`- **链接：** ${postUrl}`);
+    lines.push(`- **日期：** ${dateFormatted}`);
+    lines.push(`- **作者：** ${siteConfig.author}`);
+    lines.push(`- **标签：** ${tagsStr}`);
+    lines.push(`- **摘要：** ${post.data.description}`);
     lines.push('');
-    lines.push('### Content:');
+    lines.push('### 正文');
     lines.push('');
     lines.push(post.body || post.data.description);
     lines.push('');
@@ -47,18 +47,18 @@ export const GET: APIRoute = async ({ site }) => {
   for (const proj of projects) {
     const projUrl = `${baseUrl}/projects/${proj.id}`;
     const dateFormatted = proj.data.date.toISOString().split('T')[0];
-    const tagsStr = proj.data.tags?.join(', ') || 'N/A';
+    const tagsStr = proj.data.tags?.join('、') || '无';
 
-    lines.push(`## Project: ${proj.data.title}`);
+    lines.push(`## 项目：${proj.data.title}`);
     lines.push(`- **URL:** ${projUrl}`);
-    lines.push(`- **Date:** ${dateFormatted}`);
-    lines.push(`- **Category:** ${proj.data.category}`);
-    lines.push(`- **Tags:** ${tagsStr}`);
+    lines.push(`- **日期：** ${dateFormatted}`);
+    lines.push(`- **分类：** ${proj.data.category}`);
+    lines.push(`- **标签：** ${tagsStr}`);
     lines.push(`- **Description:** ${proj.data.description}`);
-    if (proj.data.repoUrl) lines.push(`- **Repository:** ${proj.data.repoUrl}`);
-    if (proj.data.demoUrl) lines.push(`- **Live Demo:** ${proj.data.demoUrl}`);
+    if (proj.data.repoUrl) lines.push(`- **仓库：** ${proj.data.repoUrl}`);
+    if (proj.data.demoUrl) lines.push(`- **在线预览：** ${proj.data.demoUrl}`);
     lines.push('');
-    lines.push('### Content:');
+    lines.push('### 正文');
     lines.push('');
     lines.push(proj.body || proj.data.description);
     lines.push('');

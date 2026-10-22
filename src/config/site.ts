@@ -26,6 +26,8 @@ export interface SiteFeatures {
   imageZoom?: boolean;
   /** Interactive blog comments powered by ScatterLeaf */
   comments?: boolean;
+  /** Google-Translate language dropdown (off by default for a single-language site) */
+  languageSelector?: boolean;
 }
 
 export interface SiteConfig {
@@ -87,7 +89,8 @@ export const siteConfig: SiteConfig = {
     themeSwitcher: true,
     backToTop: true,
     imageZoom: true,
-    comments: false
+    comments: false,
+    languageSelector: false
   },
   socialLinks: {
     github: 'https://github.com/SolitudeFurina',

@@ -8,12 +8,12 @@ import { siteConfig } from '../config/site';
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+  .slice(0, 6);
 
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects
   .filter((p) => p.data.featured)
-  .slice(0, 2);
+  .slice(0, 3);
 
 // Aggregate tags with counts
 const tagsMap = new Map<string, number>();
