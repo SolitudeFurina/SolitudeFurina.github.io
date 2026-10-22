@@ -2,70 +2,123 @@
 import { siteConfig } from '../config/site';
 
 interface Props {
+  /** 文章标题：只在 issueTerm 设为 'title' 时才参与匹配 */
   title?: string;
 }
 
 const { title } = Astro.props;
 const comments = siteConfig.comments;
 
-// Se os comentários estiverem desativados no siteConfig ou nas feature flags, nada é renderizado
-const isEnabled = siteConfig.features?.comments !== false && Boolean(comments?.enabled);
+// 评论开关：features.comments 不为 false，且 comments.enabled 与 repo 都填了才渲染
+const isEnabled =
+  siteConfig.features?.comments !== false &&
+  Boolean(comments?.enabled) &&
+  Boolean(comments?.repo);
+
+const provider = comments?.provider ?? 'utterances';
+const issueTerm = comments?.issueTerm ?? 'pathname';
+const label = comments?.label ?? '评论';
+const issuesUrl = `https://github.com/${comments?.repo ?? ''}/issues`;
 ---
 
 {isEnabled && comments && (
   <section class="comments-area" id="comments" aria-label="文章讨论">
     <div class="comments-divider"></div>
-    
-    {comments.provider === 'scatterleaf' && (
-      <div class="scatterleaf-wrapper">
-        <div class="comments-header">
-          <h3 class="comments-title">
-            <span>🍃</span>
-            <span>讨论与留言</span>
-          </h3>
-          <p class="comments-subtitle">
-            Iframe-free native comments powered by{' '}
-            <a href="https://github.com/rnt-rez/scatterleaf" target="_blank" rel="noopener noreferrer">
-              ScatterLeaf
-            </a>.
+
+    <div class="comments-header">
+      <h3 class="comments-title">
+        <span aria-hidden="true">💬</span>
+        <span>讨论与留言</span>
+      </h3>
+      <p class="comments-subtitle">
+        用 GitHub 账号登录即可留言——每条评论会在仓库里对应一个
+        <a href={issuesUrl} target="_blank" rel="noopener noreferrer">issue</a>，删除和屏蔽都走 GitHub 自己的权限。
+        基于 <a href="https://utteranc.es" target="_blank" rel="noopener noreferrer">utterances</a>，没有第三方数据库。
+      </p>
+    </div>
+
+    {provider === 'utterances' ? (
+      <div
+        class="utterances-host"
+        id="utterances-host"
+        data-repo={comments.repo}
+        data-issue-term={issueTerm}
+        data-label={label}
+        data-title={title}
+      >
+        <noscript>
+          <p class="comments-noscript">
+            评论区需要 JavaScript。也可以直接去 <a href={issuesUrl}>仓库的 issues</a> 留言。
           </p>
-        </div>
-
-        <div class="scatterleaf-host">
-          <scatter-leaf
-            id="post-comments"
-            repo={comments.repo}
-            category={comments.category || '综合'}
-            theme={comments.theme || 'auto'}
-            lang={comments.lang || 'auto'}
-            broker={comments.broker}
-            client-id={comments.clientId}
-            title={title}
-            term={title}
-            order={comments.order || 'oldest'}
-            hide-reactions={comments.features?.reactions === false ? '' : undefined}
-            hide-skin-tone={comments.features?.skinTone === false ? '' : undefined}
-            hide-sorting={comments.features?.sorting === false ? '' : undefined}
-            hide-code-scroll={comments.features?.codeScroll === false ? '' : undefined}
-            hide-preview={comments.features?.preview === false ? '' : undefined}
-            hide-search={comments.features?.search === false ? '' : undefined}
-            enable-images={comments.features?.images ? '' : undefined}
-            enable-moderation=""
-          ></scatter-leaf>
-        </div>
-
-        <script is:inline type="module" src="/scatterleaf.js?v=0.5.9.2"></script>
+        </noscript>
       </div>
-    )}
-
-    {/* Extension slot: If users want to use alternative comment providers or custom solutions */}
-    {comments.provider !== 'scatterleaf' && (
+    ) : (
       <div class="custom-comments-slot">
         <slot />
       </div>
     )}
   </section>
 )}
+
+<script>
+  const host = document.getElementById('utterances-host');
+
+  if (host) {
+    // 四套配色映射到 utterances 的两种：浅色 / 深色
+    const themeFor = () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'cream';
+      if (current === 'slate' || current === 'midnight') return 'github-dark';
+      return 'github-light';
+    };
+
+    let loaded = false;
+
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+
+      const script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.setAttribute('repo', host.dataset.repo || '');
+      script.setAttribute('issue-term', host.dataset.issueTerm || 'pathname');
+      script.setAttribute('label', host.dataset.label || '评论');
+      script.setAttribute('theme', themeFor());
+      host.appendChild(script);
+
+      // 主题切换后同步 iframe 内的配色
+      const syncTheme = () => {
+        const frame = host.querySelector('iframe');
+        frame?.contentWindow?.postMessage(
+          { type: 'set-theme', theme: themeFor() },
+          'https://utteranc.es'
+        );
+      };
+
+      new MutationObserver(syncTheme).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+      });
+    };
+
+    // 滚到评论区才加载 iframe：不让每个读者都下载一段第三方脚本
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            observer.disconnect();
+            load();
+          }
+        },
+        { rootMargin: '400px 0px' }
+      );
+      observer.observe(host);
+    } else {
+      load();
+    }
+  }
+</script>
 
 <style>
   .comments-area {
@@ -95,6 +148,7 @@ const isEnabled = siteConfig.features?.comments !== false && Boolean(comments?.e
     font-size: 0.95rem;
     color: var(--text-muted);
     margin: 0;
+    line-height: 1.7;
   }
 
   .comments-subtitle a {
@@ -103,7 +157,17 @@ const isEnabled = siteConfig.features?.comments !== false && Boolean(comments?.e
     text-underline-offset: 3px;
   }
 
-  .scatterleaf-host {
-    min-height: 120px;
+  .utterances-host {
+    min-height: 160px;
+  }
+
+  .utterances-host :global(iframe) {
+    width: 100%;
+    border: 0;
+  }
+
+  .comments-noscript {
+    font-size: 0.95rem;
+    color: var(--text-muted);
   }
 </style>

@@ -50,23 +50,21 @@ export interface SiteConfig {
   }[];
   comments?: {
     enabled: boolean;
-    provider: 'scatterleaf';
+    /** utterances 基于 GitHub Issues，不需要自建服务；scatterleaf 基于 Discussions，要自己部署 broker */
+    provider: 'utterances' | 'scatterleaf';
+    /** owner/repo */
     repo: string;
+    /** utterances：用哪个字段匹配已有 issue */
+    issueTerm?: 'pathname' | 'url' | 'title' | 'og:title';
+    /** utterances：新建 issue 时打的标签 */
+    label?: string;
+    /** scatterleaf 专用 */
     category?: string;
     theme?: 'auto' | 'light' | 'dark' | 'cream' | 'midnight' | 'slate';
     lang?: string;
     broker?: string;
     clientId?: string;
     order?: 'oldest' | 'newest';
-    features?: {
-      reactions?: boolean;
-      skinTone?: boolean;
-      sorting?: boolean;
-      codeScroll?: boolean;
-      preview?: boolean;
-      search?: boolean;
-      images?: boolean;
-    };
   };
 }
 
@@ -89,7 +87,7 @@ export const siteConfig: SiteConfig = {
     themeSwitcher: true,
     backToTop: true,
     imageZoom: true,
-    comments: false,
+    comments: true,
     languageSelector: false
   },
   socialLinks: {
@@ -103,17 +101,12 @@ export const siteConfig: SiteConfig = {
     { title: '标签', href: '/tags' },
     { title: '关于', href: '/about' }
   ],
+  // 评论：utterances（GitHub Issues）。仓库要装一次 utterances App，然后这里打开 enabled。
   comments: {
-    enabled: false,
-    provider: 'scatterleaf',
+    enabled: true,
+    provider: 'utterances',
     repo: 'SolitudeFurina/SolitudeFurina.github.io',
-    category: '综合',
-    theme: 'auto',
-    lang: 'zh',
-    // 评论默认关闭：接上 ScatterLeaf（基于 GitHub Discussions）后把 enabled 改成 true
-    broker: (typeof process !== 'undefined' && process.env?.PUBLIC_SCATTERLEAF_BROKER) || (import.meta as any).env?.PUBLIC_SCATTERLEAF_BROKER || '',
-    features: {
-      images: true
-    }
+    issueTerm: 'pathname',
+    label: '评论'
   }
 };
