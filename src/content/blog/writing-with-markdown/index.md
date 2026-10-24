@@ -80,10 +80,6 @@ export function greet(name: string) {
 > [!WARNING]
 > `public/` 里的文件会按原样发布，**不做压缩**。上传前先把大图压一下，否则一篇文章几 MB 很常见。
 
-## 朗读
-
-每篇文章顶部有“朗读全文”按钮，用的是浏览器自带的语音合成，不联网、不上传内容。在 frontmatter 里设 `audio: false` 可以单篇关掉。
-
 ## frontmatter 速查
 
 ```yaml
@@ -95,7 +91,6 @@ updatedDate: '2026-10-18'  # 可选，显示“更新”标记
 tags: ['标签一', '标签二']  # 可选
 draft: true                # 可选，草稿不会被发布
 image: '/images/cover.png' # 可选，列表卡片封面
-audio: false               # 可选，关闭朗读按钮
 ---
 ```
 

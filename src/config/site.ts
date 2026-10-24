@@ -12,8 +12,6 @@ export interface SiteFeatures {
   tableOfContents?: boolean;
   /** "X min read" badge in post headers */
   readingTime?: boolean;
-  /** Accessible text-to-speech audio reader in blog posts and project details */
-  audioPlayer?: boolean;
   /** Tag badges in post headers, article cards, and tag clouds */
   tags?: boolean;
   /** Notion-style share modal and trigger bar in blog posts */
@@ -81,7 +79,6 @@ export const siteConfig: SiteConfig = {
     search: true,
     tableOfContents: true,
     readingTime: true,
-    audioPlayer: true,
     tags: true,
     socialShare: true,
     themeSwitcher: true,

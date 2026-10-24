@@ -1,4 +1,4 @@
-// 阅读时长与朗读时长估算。
+// 阅读时长估算。
 // 中日韩文字按「字数」计，西文按「词数」计——用 split(/\s+/) 统计中文会把一整段算成一个词，
 // 导致中文长文永远显示「1 分钟读完」。
 
@@ -23,10 +23,4 @@ export function countUnits(text: string): { cjk: number; latin: number } {
 export function readingMinutes(body: string): number {
   const { cjk, latin } = countUnits(stripCode(body));
   return Math.max(1, Math.ceil(cjk / 400 + latin / 200));
-}
-
-/** 朗读时长（分钟）：中文 240 字/分钟，西文 150 词/分钟，最少 1 分钟 */
-export function narrationMinutes(text: string): number {
-  const { cjk, latin } = countUnits(stripCode(text));
-  return Math.max(1, Math.ceil(cjk / 240 + latin / 150));
 }
