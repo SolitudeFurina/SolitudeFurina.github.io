@@ -224,6 +224,48 @@
       "ariaLabel": "Mostrar filtro de busca",
       "type": "external",
       "hidden": false
+    },
+    {
+      "id": "external--",
+      "name": "新建笔记",
+      "ariaLabel": "新建笔记",
+      "type": "external",
+      "hidden": false
+    },
+    {
+      "id": "external--;2",
+      "name": "新建文件夹",
+      "ariaLabel": "新建文件夹",
+      "type": "external",
+      "hidden": false
+    },
+    {
+      "id": "external--;3",
+      "name": "排序",
+      "ariaLabel": "排序",
+      "type": "external",
+      "hidden": false
+    },
+    {
+      "id": "external--;4",
+      "name": "自动显示当前文件",
+      "ariaLabel": "自动显示当前文件",
+      "type": "external",
+      "hidden": false
+    },
+    {
+      "id": "external--;5",
+      "name": "全部展开",
+      "ariaLabel": "全部展开",
+      "type": "external",
+      "hidden": false
+    },
+    {
+      "id": "external--;6",
+      "name": "筛选",
+      "ariaLabel": "筛选",
+      "type": "external",
+      "hidden": false
     }
   ],
   "nativeExplorerButtonColors": {},
