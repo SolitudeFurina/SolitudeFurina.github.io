@@ -18,6 +18,7 @@ draft: false
 | `alias`        | 命令别名           | `alias ll='ls -lah'`   |
 | `history`      | 命令历史           | `history`、`!n` 执行第 n 条 |
 | `type`         | 命令类型判定         | `type alias`           |
+
 例：
 ```bash
 export  PATH=$PATH:/home/book/Desktop
