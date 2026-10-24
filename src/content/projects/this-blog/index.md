@@ -29,4 +29,4 @@ featured: true
 
 ## 代价
 
-动态能力需要额外接服务。评论基于 GitHub Discussions，目前是关闭状态；要开的话得先部署一个转发用的 Worker。
+动态能力需要额外接服务。评论用 utterances，留言直接存成仓库里的 GitHub issue，没有第三方数据库；第一次有人留言时会自动建 issue。
