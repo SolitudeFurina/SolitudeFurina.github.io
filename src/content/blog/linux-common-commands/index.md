@@ -51,7 +51,7 @@ echo "cost is \$5"  # 输出 cost is $5
 ### Shell和环境变量
 [Shell基础入门](/blog/shell/)
 
-## 2.目录/文件操作命令
+## 2. 目录/文件操作命令
 ### 1.pwd(打印当前路径)
 ![pwd](pwd.png)
 ### 2.cd(切换/改变路径)
@@ -101,7 +101,7 @@ rm -rf dir_a        #<dir_a文件名>
 ### 9.touch(修改时间戳)
 ![touch](touch.png)
 
-## 3.改变文件的权限和属性
+## 3. 改变文件的权限和属性
 
 - chgrp：改变文件所属用户组
 - chown：改变文件所有者
@@ -320,7 +320,7 @@ grep “ABC” * -nR | grep “\.h”
 
 上述命令把第 1 个命令`grep “ABC” * -nR`通过管道传给第 2 个命令。即第 2个命令在第 1 个命令的结果中搜索。
 
-## 5.压缩/解压缩命令
+## 5. 压缩/解压缩命令
 ### 1.gzip
 
 gzip 的常用选项：
@@ -447,7 +447,7 @@ tar xjvf dira.tar.bz2                 #解压到当前目录:
 tar xjvf dira.tar.bz2 -C /home/book   #解压到/home/book
 ```
 
-## 6.vi编译器
+## 6. vi编译器
 
 vi 是一个命令，也是一个命令行下的编辑器，比如在现场调试时，并没有 GUI 形式的编辑工具，那么vi 是唯一选择。
 
@@ -478,5 +478,5 @@ vi 编辑器的三种模式间切换如下图所示:
 | `p`   | 粘贴到下方       | 粘出 dd/yy 的内容 | 大写 `P` 是粘到上方          |
 | `u`   | 撤销          | 操作错了         | 可连按，多级撤销              |
 | `/`   | 向下搜索        | 找内容          | 输完回车，`n` 跳下一个         |
-其他命令：
-https://www.runoob.com/linux/linux-command-manual.html
+
+其他命令速查见 [Linux 命令手册（菜鸟教程）](https://www.runoob.com/linux/linux-command-manual.html)。
