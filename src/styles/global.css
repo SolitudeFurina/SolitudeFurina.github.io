@@ -236,6 +236,25 @@ hr {
   margin: 2.5rem 0;
 }
 
+/* ─── Article Images ───
+   只限制最大宽度，绝不放大：小图保持原始像素，
+   大图等比缩到正文栏宽，永不撑破版面。 */
+.post-content img,
+.prose img,
+.entry-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.75rem auto;
+  border-radius: 8px;
+}
+
+/* 图片紧跟文字时不要额外顶开间距 */
+.post-content p > img:only-child,
+.prose p > img:only-child {
+  margin-top: 0.5rem;
+}
+
 /* Responsive Video Embeds (16:9) */
 .video-container {
   position: relative;
