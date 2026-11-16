@@ -23,18 +23,16 @@
             }
           },
           {
-            "id": "f38669524b0cd1dd",
+            "id": "d93696ee53feb338",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "bases",
               "state": {
-                "file": "_发布说明.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
+                "file": "_bases/Home.base",
+                "viewName": "Blog"
               },
-              "icon": "lucide-file",
-              "title": "_发布说明"
+              "icon": "lucide-home",
+              "title": "Home"
             }
           }
         ],
@@ -72,7 +70,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#GCC",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -80,7 +78,7 @@
                 "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
-              "title": "Procurar"
+              "title": "搜索"
             }
           },
           {
@@ -93,10 +91,11 @@
                 "searchQuery": ""
               },
               "icon": "lucide-bookmark",
-              "title": "Marcadores"
+              "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -117,12 +116,12 @@
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
-                "useHierarchy": true,
+                "useHierarchy": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-tags",
-              "title": "Etiquetas"
+              "title": "标签"
             }
           },
           {
@@ -144,8 +143,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -159,22 +157,44 @@
       "obsidian-git:Open Git source control": false,
       "zenmode:Toggle zen mode": false,
       "obsidian42-brat:BRAT": false,
-      "omnisearch:Omnisearch": false
+      "omnisearch:Omnisearch": false,
+      "publish:发布更改": false
     }
   },
-  "active": "3a84d553f0c01465",
+  "active": "ad71d0645a66b4ad",
   "lastOpenFiles": [
-    "blog/writing-with-markdown/index.md~RF52d2ffc.TMP",
-    "_发布说明.md",
+    "blog/gcc编译/index.md",
     "_bases/Home.base",
-    "blog/shell基础入门.md",
-    "blog/shell/index.md",
-    "blog/shell",
-    "projects/this-blog/index.md",
+    "blog/linux-common-commands/index.md",
+    "blog/未命名.md",
+    "blog/gcc编译",
+    "blog/linux-common-commands/vi.png",
+    "blog/linux-common-commands/touch.png",
+    "blog/linux-common-commands/rmdir.png",
+    "blog/linux-common-commands/rm.png",
+    "blog/linux-common-commands/ls2.png",
+    "blog/linux-common-commands/pwd.png",
+    "blog/linux-common-commands/mkdir.png",
+    "blog/linux-common-commands/ls1.png",
+    "blog/linux-common-commands/cp.png",
+    "blog/linux-common-commands/cd.png",
+    "blog/linux-common-commands",
     "blog/hello-world/index.md",
-    "blog/writing-with-markdown/index.md",
-    "blog/obsidian-as-cms/index.md",
     "blog/how-this-site-works/index.md",
+    "blog/shell/index.md",
+    "blog/linux常见命令/index.md",
+    "blog/Shell基础入门.md",
+    "(blog/shell/index.md).md",
+    "(blog/shell",
+    "(blog",
+    "_发布说明.md",
+    "blog/obsidian-as-cms/index.md",
+    "projects/this-blog/index.md",
+    "blog/writing-with-markdown/index.md",
+    "blog/linux常见命令",
+    "blog/writing-with-markdown/index.md~RF52d2ffc.TMP",
+    "blog/shell基础入门.md",
+    "blog/shell",
     "blog/getting-started-with-minrock/index.md",
     "blog/obsidian-vault-guide/index.md",
     "blog/writing-technical-articles/index.md"
