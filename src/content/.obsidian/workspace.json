@@ -21,22 +21,8 @@
               "icon": "lucide-home",
               "title": "Home"
             }
-          },
-          {
-            "id": "d93696ee53feb338",
-            "type": "leaf",
-            "state": {
-              "type": "bases",
-              "state": {
-                "file": "_bases/Home.base",
-                "viewName": "Blog"
-              },
-              "icon": "lucide-home",
-              "title": "Home"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -161,12 +147,14 @@
       "publish:发布更改": false
     }
   },
-  "active": "ad71d0645a66b4ad",
+  "active": "e7a7b303c61786dc",
   "lastOpenFiles": [
-    "blog/gcc编译/index.md",
+    "blog/writing-with-markdown/index.md",
     "_bases/Home.base",
-    "blog/linux-common-commands/index.md",
+    "blog/hello-world/index.md",
     "blog/未命名.md",
+    "blog/gcc编译/index.md",
+    "blog/linux-common-commands/index.md",
     "blog/gcc编译",
     "blog/linux-common-commands/vi.png",
     "blog/linux-common-commands/touch.png",
@@ -179,7 +167,6 @@
     "blog/linux-common-commands/cp.png",
     "blog/linux-common-commands/cd.png",
     "blog/linux-common-commands",
-    "blog/hello-world/index.md",
     "blog/how-this-site-works/index.md",
     "blog/shell/index.md",
     "blog/linux常见命令/index.md",
@@ -190,7 +177,6 @@
     "_发布说明.md",
     "blog/obsidian-as-cms/index.md",
     "projects/this-blog/index.md",
-    "blog/writing-with-markdown/index.md",
     "blog/linux常见命令",
     "blog/writing-with-markdown/index.md~RF52d2ffc.TMP",
     "blog/shell基础入门.md",
