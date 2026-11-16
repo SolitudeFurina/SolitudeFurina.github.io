@@ -1,7 +1,7 @@
 ---
-title: 'Linux 常见命令'
-description: '把日常最常用的 Linux 命令整理成一张速查表：文件与目录、权限、查找、压缩，以及 vi 的基本操作。'
-pubDate: '2026-10-27'
+title: Linux 常见命令
+description: 把日常最常用的 Linux 命令整理成一张速查表：文件与目录、权限、查找、压缩，以及 vi 的基本操作。
+pubDate: 2026-10-27
 tags:
   - Linux
   - vi编译器
