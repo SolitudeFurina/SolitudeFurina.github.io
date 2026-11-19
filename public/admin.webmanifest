@@ -1,0 +1,19 @@
+{
+  "name": "写文章 · Solitude",
+  "short_name": "写文章",
+  "description": "在手机上写、改、删博客文章，提交后自动部署。",
+  "start_url": "/admin/",
+  "scope": "/admin/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f4ea",
+  "theme_color": "#92400e",
+  "icons": [
+    {
+      "src": "/admin-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# /admin/ 是纯前端写作工具页，不收录
+Disallow: /admin/
 
 Sitemap: https://solitudefurina.github.io/sitemap-index.xml

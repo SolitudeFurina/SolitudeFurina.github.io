@@ -1,0 +1,835 @@
+---
+// 博客后台：纯静态页面，所有读写都在浏览器里直连 GitHub API。
+// 不参与站点导航，也不该被搜索引擎收录。
+const title = '后台 · Solitude';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5"
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f7f4ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="写文章" />
+    <link rel="manifest" href="/admin.webmanifest" />
+    <link rel="icon" href="/admin-icon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- ───────────── 登录 ───────────── -->
+    <main id="login-view" class="login">
+      <div class="login-card">
+        <h1>🪶 写文章</h1>
+        <p class="muted">
+          用 GitHub 令牌登录，直接在浏览器里写、改、删文章。提交后约 1–2 分钟自动上线。
+        </p>
+
+        <label>
+          <span>仓库</span>
+          <input id="in-repo" value="SolitudeFurina/SolitudeFurina.github.io" autocomplete="off" spellcheck="false" />
+        </label>
+
+        <label>
+          <span>分支</span>
+          <input id="in-branch" value="master" autocomplete="off" spellcheck="false" />
+        </label>
+
+        <label>
+          <span>Personal Access Token</span>
+          <input
+            id="in-token"
+            type="password"
+            placeholder="github_pat_… 或 ghp_…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+
+        <button id="btn-login" class="btn btn-primary btn-block" type="button">登录</button>
+        <p id="login-msg" class="msg"></p>
+
+        <details class="help">
+          <summary>怎么拿令牌？</summary>
+          <ol>
+            <li>
+              打开 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">
+              Fine-grained token</a>
+            </li>
+            <li>Repository access → 只选 <code>SolitudeFurina.github.io</code></li>
+            <li>Permissions → Repository permissions → <b>Contents: Read and write</b></li>
+            <li>顺便把 <b>Actions: Read-only</b> 也开上，方便看构建状态</li>
+            <li>Expiration 建议 90 天，生成后复制过来</li>
+          </ol>
+          <p class="muted small">
+            令牌只保存在这台设备的浏览器里（localStorage），不会发给任何第三方；丢失就在 GitHub 页面吊销重发。
+          </p>
+        </details>
+      </div>
+    </main>
+
+    <!-- ───────────── 应用 ───────────── -->
+    <div id="app-view" hidden>
+      <header class="topbar">
+        <div class="topbar-left">
+          <strong>🪶 写文章</strong>
+          <span id="user-badge" class="badge"></span>
+        </div>
+        <div class="topbar-actions">
+          <button id="btn-refresh" class="btn btn-ghost" type="button" title="重新读取仓库">刷新</button>
+          <button id="btn-new" class="btn btn-primary" type="button">新建</button>
+          <button id="btn-logout" class="btn btn-ghost" type="button" title="退出并清除令牌">退出</button>
+        </div>
+      </header>
+
+      <div id="build-status" class="build" hidden></div>
+
+      <!-- 列表 -->
+      <main id="list-view" class="pane">
+        <div class="searchbar">
+          <input id="in-search" type="search" placeholder="搜索标题 / 目录名 / 标签" autocomplete="off" />
+        </div>
+        <p id="list-status" class="list-status"></p>
+        <div id="article-list" class="list"></div>
+      </main>
+
+      <!-- 编辑器 -->
+      <main id="editor-view" class="pane editor" hidden>
+        <div class="editor-head">
+          <button id="btn-back" class="btn btn-ghost" type="button">← 返回</button>
+          <strong id="editor-title">新建文章</strong>
+          <a id="link-online" class="btn btn-ghost" href="#" target="_blank" rel="noopener" hidden>线上</a>
+        </div>
+
+        <div class="fields">
+          <label>
+            <span>标题</span>
+            <input id="f-title" placeholder="GCC 编译" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>目录名（slug）</span>
+            <input id="f-slug" placeholder="gcc-compile" autocomplete="off" spellcheck="false" />
+            <small id="slug-hint" class="hint"></small>
+          </label>
+
+          <label>
+            <span>摘要</span>
+            <input id="f-desc" placeholder="一句话说清这篇文章讲什么" autocomplete="off" />
+          </label>
+
+          <div class="row-2">
+            <label>
+              <span>日期</span>
+              <input id="f-date" type="date" />
+            </label>
+            <label>
+              <span>标签（逗号分隔）</span>
+              <input id="f-tags" placeholder="GCC, Linux" autocomplete="off" />
+            </label>
+          </div>
+
+          <label class="switch">
+            <input id="f-draft" type="checkbox" />
+            <span>存为草稿（不发布到网站）</span>
+          </label>
+        </div>
+
+        <div class="tabs">
+          <button id="tab-write" class="tab active" type="button">写作</button>
+          <button id="tab-preview" class="tab" type="button">预览</button>
+          <label class="upload">
+            <input id="in-image" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+            <span>插入图片</span>
+          </label>
+        </div>
+
+        <div class="toolbar">
+          <button type="button" data-tool="h2">H2</button>
+          <button type="button" data-tool="bold"><b>B</b></button>
+          <button type="button" data-tool="italic"><i>I</i></button>
+          <button type="button" data-tool="code">代码</button>
+          <button type="button" data-tool="block">代码块</button>
+          <button type="button" data-tool="link">链接</button>
+          <button type="button" data-tool="quote">提示框</button>
+          <button type="button" data-tool="list">列表</button>
+          <button type="button" data-tool="table">表格</button>
+          <button type="button" data-tool="hr">分隔线</button>
+        </div>
+
+        <textarea id="f-body" class="body" spellcheck="false"></textarea>
+        <div id="preview-box" class="preview markdown" hidden></div>
+
+        <div class="editor-actions">
+          <button id="btn-save" class="btn btn-primary btn-block" type="button">保存并发布</button>
+          <button id="btn-delete" class="btn btn-danger" type="button" hidden>删除</button>
+        </div>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      import '../../admin/app';
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #f7f4ea;
+        --surface: #fffdf8;
+        --text: #292524;
+        --muted: #6b6560;
+        --border: #e5dac1;
+        --accent: #92400e;
+        --accent-soft: #f3e7d3;
+        --danger: #b91c1c;
+        --ok: #15803d;
+        --radius: 10px;
+        color-scheme: light dark;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b1120;
+          --surface: #151c2c;
+          --text: #e8edf5;
+          --muted: #9aa6b8;
+          --border: #263247;
+          --accent: #7cb3ff;
+          --accent-soft: #1b2740;
+          --danger: #f87171;
+          --ok: #4ade80;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+        line-height: 1.6;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        min-height: 100dvh;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      code {
+        font-family: ui-monospace, Consolas, monospace;
+        background: var(--accent-soft);
+        border-radius: 4px;
+        padding: 0.1em 0.35em;
+        font-size: 0.9em;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .small {
+        font-size: 0.82rem;
+      }
+
+      /* ── 表单控件：手机上统一 16px，避免 iOS 自动放大 ── */
+      input,
+      textarea,
+      button,
+      select {
+        font: inherit;
+        font-size: 16px;
+        color: inherit;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 0.7rem 0.8rem;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        min-height: 44px;
+        padding: 0.5rem 0.95rem;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: transform 0.1s, background 0.15s, border-color 0.15s;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: default;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .btn-primary {
+          color: #06101f;
+        }
+      }
+
+      .btn-ghost {
+        background: transparent;
+      }
+
+      .btn-ghost:hover {
+        background: var(--accent-soft);
+      }
+
+      .btn-danger {
+        color: var(--danger);
+        border-color: color-mix(in srgb, var(--danger) 45%, var(--border));
+        background: transparent;
+      }
+
+      .btn-block {
+        width: 100%;
+      }
+
+      /* ── 登录 ── */
+      .login {
+        display: grid;
+        place-items: center;
+        padding: 1.5rem 1rem calc(2rem + env(safe-area-inset-bottom));
+        min-height: 100dvh;
+      }
+
+      .login-card {
+        width: min(460px, 100%);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 12px 40px -20px rgb(0 0 0 / 0.35);
+      }
+
+      .login-card h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.35rem;
+      }
+
+      .login-card label,
+      .fields label {
+        display: block;
+        margin-top: 1rem;
+      }
+
+      .login-card label > span,
+      .fields label > span {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--muted);
+        margin-bottom: 0.35rem;
+        letter-spacing: 0.02em;
+      }
+
+      .login-card .btn-block {
+        margin-top: 1.15rem;
+      }
+
+      .msg {
+        min-height: 1.2em;
+        margin: 0.7rem 0 0;
+        font-size: 0.85rem;
+        color: var(--danger);
+      }
+
+      .help {
+        margin-top: 1.1rem;
+        border-top: 1px dashed var(--border);
+        padding-top: 0.85rem;
+        font-size: 0.88rem;
+      }
+
+      .help summary {
+        cursor: pointer;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .help ol {
+        padding-left: 1.2rem;
+        margin: 0.6rem 0;
+      }
+
+      /* ── 顶栏 ── */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        padding: calc(0.55rem + env(safe-area-inset-top)) 0.85rem 0.55rem;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 0;
+      }
+
+      .topbar-actions {
+        display: flex;
+        gap: 0.4rem;
+        margin-left: auto;
+      }
+
+      .topbar-actions .btn {
+        min-height: 38px;
+        padding: 0.35rem 0.7rem;
+        font-size: 0.9rem;
+      }
+
+      .badge {
+        font-size: 0.78rem;
+        color: var(--muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* ── 构建状态 ── */
+      .build {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.9rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+        background: var(--surface);
+      }
+
+      .build-running {
+        color: var(--accent);
+      }
+
+      .build-ok {
+        color: var(--ok);
+      }
+
+      .build-err {
+        color: var(--danger);
+      }
+
+      /* ── 列表 ── */
+      .pane {
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 0.85rem 0.85rem calc(2rem + env(safe-area-inset-bottom));
+      }
+
+      .searchbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 0.4rem 0 0.6rem;
+        background: var(--bg);
+      }
+
+      .list-status {
+        margin: 0 0 0.6rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      .list {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        width: 100%;
+        text-align: left;
+        padding: 0.8rem 0.9rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: border-color 0.15s, transform 0.1s;
+      }
+
+      .row:hover {
+        border-color: var(--accent);
+      }
+
+      .row:active {
+        transform: scale(0.995);
+      }
+
+      .row-main {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .row-title {
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .row-meta {
+        font-size: 0.76rem;
+        color: var(--muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .pill {
+        font-size: 0.72rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        white-space: nowrap;
+      }
+
+      .pill-live {
+        color: var(--ok);
+        border-color: color-mix(in srgb, var(--ok) 40%, var(--border));
+      }
+
+      .pill-draft {
+        color: var(--muted);
+        background: var(--accent-soft);
+      }
+
+      .empty {
+        color: var(--muted);
+        text-align: center;
+        padding: 2rem 1rem;
+      }
+
+      /* ── 编辑器 ── */
+      .editor {
+        max-width: 860px;
+      }
+
+      .editor-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .editor-head strong {
+        flex: 1;
+        text-align: center;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+      }
+
+      .hint {
+        display: block;
+        margin-top: 0.3rem;
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+
+      .switch {
+        display: flex !important;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.9rem !important;
+      }
+
+      .switch input {
+        width: 20px;
+        height: 20px;
+        accent-color: var(--accent);
+      }
+
+      .switch span {
+        margin: 0 !important;
+        font-size: 0.88rem !important;
+        color: var(--text) !important;
+        font-weight: 500 !important;
+      }
+
+      .tabs {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 1rem 0 0.5rem;
+      }
+
+      .tab {
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.35rem 0.9rem;
+        cursor: pointer;
+        min-height: 36px;
+      }
+
+      .tab.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .tab.active {
+          color: #06101f;
+        }
+      }
+
+      .upload {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .upload:hover {
+        border-color: var(--accent);
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        padding-bottom: 0.45rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .toolbar button {
+        flex: 0 0 auto;
+        min-height: 34px;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.82rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .toolbar button:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .body {
+        min-height: 46vh;
+        line-height: 1.75;
+        resize: vertical;
+        font-family: ui-monospace, Consolas, 'Microsoft YaHei', monospace;
+        font-size: 15px;
+      }
+
+      .preview {
+        min-height: 46vh;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem;
+        overflow-wrap: anywhere;
+      }
+
+      /* 预览里的 Markdown 排版 */
+      .markdown h1,
+      .markdown h2,
+      .markdown h3 {
+        line-height: 1.3;
+        margin: 1.2rem 0 0.5rem;
+      }
+
+      .markdown h2 {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.3rem;
+      }
+
+      .markdown p {
+        margin: 0 0 0.9rem;
+      }
+
+      .markdown pre {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 0.9rem;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+
+      .markdown pre code {
+        background: transparent;
+        padding: 0;
+      }
+
+      .markdown blockquote {
+        margin: 1rem 0;
+        padding: 0.5rem 0.9rem;
+        border-left: 3px solid var(--border);
+        color: var(--muted);
+      }
+
+      .markdown img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .markdown table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1rem 0;
+        font-size: 0.92rem;
+      }
+
+      .markdown th,
+      .markdown td {
+        border: 1px solid var(--border);
+        padding: 0.4rem 0.55rem;
+        text-align: left;
+      }
+
+      .md-callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        border-radius: 0 8px 8px 0;
+        padding: 0.6rem 0.9rem;
+        margin: 1rem 0;
+      }
+
+      .md-callout-title {
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 0.3rem;
+      }
+
+      .editor-actions {
+        position: sticky;
+        bottom: 0;
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.7rem 0 calc(0.7rem + env(safe-area-inset-bottom));
+        margin-top: 0.8rem;
+        background: linear-gradient(to top, var(--bg) 70%, transparent);
+      }
+
+      .editor-actions .btn-block {
+        flex: 1;
+        min-height: 48px;
+        font-size: 1rem;
+      }
+
+      /* ── Toast ── */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(1.2rem + env(safe-area-inset-bottom));
+        transform: translate(-50%, 200%);
+        max-width: min(92vw, 520px);
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        background: #111827;
+        color: #f9fafb;
+        font-size: 0.88rem;
+        box-shadow: 0 8px 30px -10px rgb(0 0 0 / 0.5);
+        transition: transform 0.25s ease, opacity 0.25s;
+        opacity: 0;
+        z-index: 100;
+        pointer-events: none;
+        text-align: center;
+      }
+
+      .toast.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+
+      .toast[data-kind='err'] {
+        background: #7f1d1d;
+      }
+
+      @media (max-width: 520px) {
+        .row-2 {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar-actions .btn {
+          padding: 0.35rem 0.55rem;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .pane {
+          padding-top: 1.2rem;
+        }
+
+        .body,
+        .preview {
+          min-height: 60vh;
+        }
+      }
+    </style>
+  </body>
+</html>

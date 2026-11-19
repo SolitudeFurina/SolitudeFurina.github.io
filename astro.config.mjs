@@ -15,7 +15,8 @@ export default defineConfig({
   site: env.SITE_URL || 'https://solitudefurina.github.io/',
   // 个人账号根域名的Pages站点，base路径直接设为根路径，完全规避静态资源404问题
   base: '/',
-  integrations: [sitemap()],
+  // 后台页面（/admin/）不参与搜索收录，也不进 sitemap
+  integrations: [sitemap({ filter: (page) => !page.includes('/admin') })],
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover'
